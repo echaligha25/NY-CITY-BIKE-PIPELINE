@@ -1,0 +1,48 @@
+version: '3.8'
+
+volumes:
+  kestra-data:
+    driver: local
+
+services:
+  kestra:
+    image: kestra/kestra:latest
+    pull_policy:  always
+    user: "root"
+    command: server standalone
+    volumes:
+      - kestra-data:/app/storage
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp/kestra-wd:/tmp/kestra-wd
+      - ./flows:/local_flows
+      - ../src:/app/scripts
+      - /Users/eliewahachaligha/Desktop/DataEngineering2025/NY-Citi-Bike-Pipeline/kestra:/flows  # Mount your local flows folder here
+    environment:
+      KESTRA_CONFIGURATION: |
+        kestra:
+          server:
+            basicAuth:
+              enabled: true
+              username: "echaligha25@outlook.com"
+              password: kestra
+          repository:
+            type: h2
+          storage:
+            type: local
+            local:
+              basePath: "/app/storage"
+          queue:
+            type: memory
+          tasks:
+            tmpDir:
+              path: /tmp/kestra-wd/tmp
+          url: http://localhost:8080/
+        micronaut:
+          io:
+            watch:
+              enabled: true
+              paths:
+                - /flows
+    ports:
+      - "8080:8080"
+      - "8081:8081"

@@ -1,0 +1,15 @@
+# Ignore Terraform directories and files
+.terraform/
+*.tfstate
+*.tfstate.*
+# Ignore all files inside 'keys' folder within 'terraform'
+terraform/keys/*
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+
+# Ignore logs
+*.log
+.DS_Store
+
