@@ -1,0 +1,11 @@
+citibike:
+  target: bigquery
+  outputs:
+    bigquery:
+      dataset: citibike_tripdata
+      keyfile: ../service-account.json
+      method: service-account
+      project: data-kestra1
+      threads: 4
+      type: bigquery
+      location: us-west1

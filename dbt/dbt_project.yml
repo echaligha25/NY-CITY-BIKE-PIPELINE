@@ -1,22 +1,27 @@
-name: 'citibike_dbt'
+name: 'dbt_citibike'
 version: '1.0.0'
 config-version: 2
 
-profile: 'default'
+profile: 'citibike'
 
 model-paths: ["models"]
-target-path: "target"
+analysis-paths: ["analyses"]
+seed-paths: ["seed"]
+macro-paths: ["macro"]
+snapshot-paths: ["snapshots"]
+
+
+
+
 target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
 models:
-  ny_citi_bike:
+  dbt_citibike:
     staging:
       materialized: view
-
     core:
       materialized: table
-
 

@@ -23,7 +23,7 @@ services:
           server:
             basicAuth:
               enabled: true
-              username: "echaligha25@outlook.com"
+              username: "echaligha25@outlook.com"  
               password: kestra
           repository:
             type: h2

@@ -12,11 +12,11 @@ inputs:
 tasks:
   - id: sync
     type: io.kestra.plugin.git.SyncNamespaceFiles
-    url: https://github.com/DataTalksClub/data-engineering-zoomcamp
-    branch: main
+    url: https://github.com/echaligha25/NY-CITY-BIKE-PIPELINE
+    branch: master
     namespace: "{{flow.namespace}}"
-    gitDirectory: 04-analytics-engineering/taxi_rides_ny
-    dryRun: false
+    gitDirectory: dbt/
+    dryRun: true
     # disabled: true # this Git Sync is needed only when running it the first time, afterwards the task can be disabled
 
   - id: dbt-build
@@ -31,14 +31,17 @@ tasks:
       type: io.kestra.plugin.scripts.runner.docker.Docker
     inputFiles:
       sa.json: "{{kv('GCP_CREDS')}}"
+      projectDir: dbt
     commands:
+      - cp service-account.json dbt/
+      - cd dbt/
       - dbt deps
       - "{{ inputs.dbt_command }}"
     storeManifest:
       key: manifest.json
       namespace: "{{ flow.namespace }}"
     profiles: |
-      default:
+      citibike:
         outputs:
           dev:
             type: bigquery
@@ -54,7 +57,7 @@ tasks:
         target: dev
 
 description: |
-  Note that you need to adjust the models/staging/schema.yml file to match your database and schema. Select and edit that Namespace File from the UI. Save and run this flow. Once https://github.com/DataTalksClub/data-engineering-zoomcamp/pull/565/files is merged, you can ignore this note as it will be dynamically adjusted based on env variables.
+  Note that you need to adjust the models/staging/schema.
   ```yaml
   sources:
     - name: staging
